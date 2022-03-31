@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class BookDTO {
-    private final String title;
+    private int key;
+    private String title;
     private int price;
     private String writer;
     private String publisher;
-
 }
