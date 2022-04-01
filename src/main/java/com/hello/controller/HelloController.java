@@ -2,6 +2,7 @@ package com.hello.controller;
 
 import com.hello.domain.BookEntity;
 import com.hello.dto.BookDTO;
+import com.hello.dto.ResponseBookDTO;
 import com.hello.dto.SaveBookRequestDTO;
 import com.hello.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,11 @@ public class HelloController {
         bookService.save(bookEntity);
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/api/v1/posts/{ID}")
+    public ResponseBookDTO getBook(@PathVariable int ID){
+        System.out.println("getBook");
+        return bookService.findByID(ID);
+    }
 
 
 }

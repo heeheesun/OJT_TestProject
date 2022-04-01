@@ -2,6 +2,7 @@ package com.hello.service;
 
 import com.hello.domain.BookEntity;
 import com.hello.dto.BookDTO;
+import com.hello.dto.ResponseBookDTO;
 import com.hello.dto.SaveBookRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,4 +20,8 @@ public class BookService {
         bookRepository.save(bookEntity);
     }
 
+    public ResponseBookDTO findByID(int ID){
+        BookEntity bookEntity = bookRepository.findById(ID).orElseThrow(() -> new IllegalArgumentException("해당하는 코드의 책이 없습니다. ID=" + ID));
+        return new ResponseBookDTO(bookEntity);
+    }
 }
