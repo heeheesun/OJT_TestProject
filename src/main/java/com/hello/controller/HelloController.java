@@ -1,12 +1,23 @@
 package com.hello.controller;
 
+import com.hello.domain.BookEntity;
 import com.hello.dto.BookDTO;
+import com.hello.dto.SaveBookRequestDTO;
+import com.hello.service.BookService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class HelloController {
+
+    @Autowired
+    private BookService bookService;
 
     @GetMapping("hello")
     public String hello(Model model){
@@ -31,10 +42,14 @@ public class HelloController {
                 .build();
 
         return book1;
-
     }
 
 
+    @RequestMapping(method = RequestMethod.PUT, path = "/api/v1/posts")
+    public void postBook(@RequestBody BookEntity bookEntity) {
+        System.out.println("postBook");
+        bookService.save(bookEntity);
+    }
 
 
 
