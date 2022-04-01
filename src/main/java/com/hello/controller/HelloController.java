@@ -4,6 +4,7 @@ import com.hello.domain.BookEntity;
 import com.hello.dto.BookDTO;
 import com.hello.dto.ResponseBookDTO;
 import com.hello.dto.SaveBookRequestDTO;
+import com.hello.dto.UpdateBookRequestDTO;
 import com.hello.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class HelloController {
     @RequestMapping(method = RequestMethod.PUT, path = "/api/v1/posts")
     public void postBook(@RequestBody BookEntity bookEntity) {
         System.out.println("postBook");
+
         bookService.save(bookEntity);
     }
 
@@ -56,6 +58,12 @@ public class HelloController {
     public ResponseBookDTO getBook(@PathVariable int ID){
         System.out.println("getBook");
         return bookService.findByID(ID);
+    }
+
+    @PutMapping("/api/v1/posts/{ID}")
+    public int updateBook(@PathVariable int ID, @RequestBody UpdateBookRequestDTO requestDTO){
+        System.out.println("updateBook");
+        return bookService.update(ID,requestDTO);
     }
 
 

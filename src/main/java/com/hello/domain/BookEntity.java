@@ -1,6 +1,5 @@
 package com.hello.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +27,13 @@ public class BookEntity {
 
     @Column(name = "publisher")
     private String publisher;
+
+    public void update(String title, int price, String writer, String publisher){
+        this.title = title;
+        this.price = price;
+        this.writer = writer;
+        this.publisher = publisher;
+    }
 
     BookEntity(int ID, String title, int price, String writer, String publisher) {
         this.ID = ID;
