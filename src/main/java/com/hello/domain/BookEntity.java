@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BookEntity {
+public class BookEntity extends BaseTimeEntity{
     //DB데이터와 1:1 매칭
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) //auto increase
     @Column(name = "ID")

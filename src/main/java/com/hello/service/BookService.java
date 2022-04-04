@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 
 @Service
 public class BookService {
@@ -17,9 +18,9 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    LocalDateTime now = LocalDateTime.now();
+
     public void save(BookEntity bookEntity){
-        System.out.println("plz work");
-//        System.out.println("bookRepository.save(requestDTO.toEntity()).getID() = "+bookRepository.save(requestDTO.toEntity()).getID());
         bookRepository.save(bookEntity);
     }
 
@@ -29,10 +30,12 @@ public class BookService {
     }
 
     @Transactional
-    public int update(int ID, UpdateBookRequestDTO requestDTO){
+    public BookEntity update(int ID, UpdateBookRequestDTO requestDTO){
         BookEntity bookEntity = bookRepository.findById(ID).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. ID = "+ID));
-
         bookEntity.update(requestDTO.getTitle(),requestDTO.getPrice(),requestDTO.getWriter(),requestDTO.getPublisher());
-        return ID;
+
+
+        return bookEntity;
     }
+
 }

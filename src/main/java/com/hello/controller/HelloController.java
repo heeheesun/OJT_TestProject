@@ -5,6 +5,7 @@ import com.hello.dto.BookDTO;
 import com.hello.dto.ResponseBookDTO;
 import com.hello.dto.SaveBookRequestDTO;
 import com.hello.dto.UpdateBookRequestDTO;
+import com.hello.service.BookRepository;
 import com.hello.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ public class HelloController {
         System.out.println("postBook");
 
         bookService.save(bookEntity);
+        System.out.println(">>>>> crateDate = "+ bookEntity.getCreatedDate() +" modifiedDate = "+ bookEntity.getModifiedDate() +"<<<<<");
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/api/v1/posts/{ID}")
@@ -61,10 +63,13 @@ public class HelloController {
     }
 
     @PutMapping("/api/v1/posts/{ID}")
-    public int updateBook(@PathVariable int ID, @RequestBody UpdateBookRequestDTO requestDTO){
+    public void updateBook(@PathVariable int ID, @RequestBody UpdateBookRequestDTO requestDTO){
         System.out.println("updateBook");
-        return bookService.update(ID,requestDTO);
+        BookEntity bookEntity = bookService.update(ID,requestDTO);
+        System.out.println(">>>>> crateDate = "+ bookEntity.getCreatedDate() +" modifiedDate = "+ bookEntity.getModifiedDate() +"<<<<<");
+
     }
+
 
 
 }
