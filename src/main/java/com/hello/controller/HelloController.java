@@ -3,18 +3,12 @@ package com.hello.controller;
 import com.hello.domain.BookEntity;
 import com.hello.dto.BookDTO;
 import com.hello.dto.ResponseBookDTO;
-import com.hello.dto.SaveBookRequestDTO;
 import com.hello.dto.UpdateBookRequestDTO;
-import com.hello.service.BookRepository;
 import com.hello.service.BookService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 public class HelloController {
@@ -51,9 +45,7 @@ public class HelloController {
     @RequestMapping(method = RequestMethod.PUT, path = "/api/v1/posts")
     public void postBook(@RequestBody BookEntity bookEntity) {
         System.out.println("postBook");
-
         bookService.save(bookEntity);
-        System.out.println(">>>>> crateDate = "+ bookEntity.getCreatedDate() +" modifiedDate = "+ bookEntity.getModifiedDate() +"<<<<<");
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/api/v1/posts/{ID}")
@@ -63,13 +55,26 @@ public class HelloController {
     }
 
     @PutMapping("/api/v1/posts/{ID}")
-    public void updateBook(@PathVariable int ID, @RequestBody UpdateBookRequestDTO requestDTO){
+    public BookEntity updateBook(@PathVariable int ID, @RequestBody BookEntity requestDTO){
         System.out.println("updateBook");
         BookEntity bookEntity = bookService.update(ID,requestDTO);
         System.out.println(">>>>> crateDate = "+ bookEntity.getCreatedDate() +" modifiedDate = "+ bookEntity.getModifiedDate() +"<<<<<");
-
+        return bookEntity;
     }
 
+    @RequestMapping(method = {RequestMethod.GET,RequestMethod.DELETE}, path = "/api/v1/delete/{ID}")
+    public ResponseEntity<?> deleteBook(@PathVariable int ID){
+        try{
+            boolean isDelete = this.bookService.delete(ID);
+            if(isDelete) {
+                return ResponseEntity.ok("delete success");
+            }else {
+                return ResponseEntity.badRequest().body("can't find entity");
+            }
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Invalid Parameter");
+        }
+    }
 
 
 }

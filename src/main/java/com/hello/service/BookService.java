@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BookService {
@@ -22,6 +24,7 @@ public class BookService {
 
     public void save(BookEntity bookEntity){
         bookRepository.save(bookEntity);
+        System.out.println(">>>>> crateDate = "+ bookEntity.getCreatedDate() +" modifiedDate = "+ bookEntity.getModifiedDate() +"<<<<<");
     }
 
     public ResponseBookDTO findByID(int ID){
@@ -30,12 +33,23 @@ public class BookService {
     }
 
     @Transactional
-    public BookEntity update(int ID, UpdateBookRequestDTO requestDTO){
+    public BookEntity update(int ID, BookEntity requestDTO){
         BookEntity bookEntity = bookRepository.findById(ID).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. ID = "+ID));
         bookEntity.update(requestDTO.getTitle(),requestDTO.getPrice(),requestDTO.getWriter(),requestDTO.getPublisher());
 
 
         return bookEntity;
     }
+
+    public boolean delete(int ID) throws IllegalArgumentException{
+        BookEntity bookEntity = bookRepository.findById(ID).orElseThrow(()->new IllegalArgumentException("해당 게시글이 없습니다. ID = "+ID));
+        if(bookEntity != null){
+            bookRepository.delete(bookEntity);
+            return true;
+        }
+        return false;
+    }
+
+
 
 }
